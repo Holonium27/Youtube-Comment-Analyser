@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css?family=Exo&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter&display=swap"
+      rel="stylesheet"
+    />
+    <link href="./static/main.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Results</title>
+  </head>
+  <body>
+    <!-- <div class="logo">
+      <img src="Logo.png" />
+    </div> -->
+    <h1 style="margin-bottom: 10px; margin-top: 20px">Results</h1>
+    <!-- Bar chart -->
+    <div class="container">
+      <div class="column wide">
+        <canvas id="myBarChart" height="200px"></canvas>
+      </div>
+      <div class="column">
+        <canvas
+          id="myPieChart"
+          height="360px"
+          width="360px"
+          style="padding: 20px"
+        ></canvas>
+      </div>
+    </div>
+    <br /><br />
+    <div
+      class="scores"
+      style="background-color: black; color: white; text-align: center"
+    >
+      The Sentiments Are {{phrase}}
+    </div>
+
+    <div class="footer">
+      <img src="./static/Bottom Design.png" />
+    </div>
+    <script>
+      // Bar chart data
+      var barChartData = {
+          labels: {{ labels | tojson }},
+          datasets: [{
+              label: 'Accuracy Scores',
+              data: {{ data | tojson }},
+              backgroundColor: 'rgba(255, 99, 132, 1)',
+              borderColor: 'rgba(255, 99, 132, 1)',
+              borderWidth: 1
+          }]
+      };
+
+      // Bar chart options
+      var barChartOptions = {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      suggestedMin: 50,
+                      fontColor: 'white' 
+                  }
+              }]
+          }
+      };
+
+      // Pie chart data
+      var pieChartData = {
+          labels: {{ labels2 | tojson }},
+          datasets: [{
+              label: 'Proportions of Sentiment',
+              data: {{ values | tojson }},
+              backgroundColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+              ],
+              borderWidth: 1
+          }]
+      };
+
+      // Pie chart options
+      var pieChartOptions = {responsive: false};
+
+      // Create bar chart
+      var ctxBar = document.getElementById('myBarChart').getContext('2d');
+      var myBarChart = new Chart(ctxBar, {
+          type: 'bar',
+          data: barChartData,
+          options: barChartOptions
+      });
+
+      // Create pie chart
+      var ctxPie = document.getElementById('myPieChart').getContext('2d');
+      var myPieChart = new Chart(ctxPie, {
+          type: 'pie',
+          data: pieChartData,
+          options: pieChartOptions
+      });
+    </script>
+  </body>
+</html>
